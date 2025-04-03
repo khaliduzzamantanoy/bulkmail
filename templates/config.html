@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <div class="form-container">
+    <h1 style="text-align: center">Config SMTP</h1>
+    <form method="POST" action="/config">
+      <label for="smtp_server">SMTP Server:</label><br />
+      <input
+        type="text"
+        id="smtp_server"
+        name="smtp_server"
+        value="{{ smtp_config.smtp_server if smtp_config else '' }}"
+        required
+      /><br /><br />
+
+      <label for="smtp_port">SMTP Port (TLS):</label><br />
+      <input
+        type="number"
+        id="smtp_port"
+        name="smtp_port"
+        value="{{ smtp_config.smtp_port if smtp_config else '' }}"
+        required
+      /><br /><br />
+
+      <label for="email">Email Address:</label><br />
+      <input
+        type="email"
+        id="email"
+        name="email"
+        value="{{ smtp_config.email if smtp_config else '' }}"
+        required
+      /><br /><br />
+
+      <label for="password">App Password:</label><br />
+      <input
+        type="password"
+        id="password"
+        name="password"
+        value="{{ smtp_config.password if smtp_config else '' }}"
+        required
+      /><br /><br />
+
+      <button type="submit">Save</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

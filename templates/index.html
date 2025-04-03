@@ -1,0 +1,125 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container full-space">
+  <!-- Left Side: Send Email Section -->
+  <div class="form-container">
+    <h1 style="text-align: center">BulkMail Pro</h1>
+    <form id="mailForm">
+      <label for="fileUpload">Upload a .txt file:</label><br />
+      <input
+        type="file"
+        id="fileUpload"
+        accept=".txt"
+        required
+        aria-label="Upload a .txt file"
+      /><br /><br />
+
+      <label for="senderName">Sender Name:</label><br />
+      <input
+        type="text"
+        id="senderName"
+        placeholder="Enter sender name"
+        value="BulkMail Pro"
+        aria-label="Sender Name"
+      /><br /><br />
+
+      <label for="subject">Email Subject:</label><br />
+      <input
+        type="text"
+        id="subject"
+        placeholder="Enter email subject"
+        required
+        aria-label="Email Subject"
+      /><br /><br />
+
+      <label for="body">Email Message:</label><br />
+      <textarea
+        id="body"
+        placeholder="Enter email body"
+        required
+        aria-label="Email Message"
+      ></textarea
+      ><br /><br />
+
+      <button type="button" onclick="sendEmails()">SEND EMAILS</button>
+    </form>
+  </div>
+
+  <!-- Right Side: Sending Log -->
+  <div class="log-container">
+    <h2 style="text-align: center">Sending Log</h2>
+    <div id="log"></div>
+  </div>
+</div>
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById("menu");
+    const overlay = document.getElementById("overlay");
+    const menuIcon = document.querySelector(".menu-icon");
+
+    // Toggle active classes
+    menu.classList.toggle("active");
+    overlay.classList.toggle("active");
+    menuIcon.classList.toggle("active");
+  }
+
+  function sendEmails() {
+    const formData = new FormData();
+    const fileInput = document.getElementById("fileUpload");
+    const senderName = document.getElementById("senderName").value; // Get sender name
+    const subject = document.getElementById("subject").value;
+    const body = document.getElementById("body").value;
+
+    if (!fileInput.files[0]) {
+      alert("Please upload a file.");
+      return;
+    }
+
+    // Validate file type
+    const fileName = fileInput.files[0].name;
+    const fileExtension = fileName.split(".").pop().toLowerCase();
+    if (fileExtension !== "txt") {
+      alert("Please upload a valid .txt file.");
+      return;
+    }
+
+    formData.append("file", fileInput.files[0]);
+    formData.append("sender_name", senderName); // Append sender name
+    formData.append("subject", subject);
+    formData.append("body", body);
+
+    fetch("/api/sendEmails", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Clear previous logs
+        const logDiv = document.getElementById("log");
+        logDiv.innerHTML = "";
+
+        // Render success logs
+        data.success.forEach((entry) => {
+          const logItem = document.createElement("div");
+          logItem.className = "log-item success";
+          logItem.textContent = entry;
+          logDiv.appendChild(logItem);
+        });
+
+        // Render failure logs
+        data.failure.forEach((entry) => {
+          const logItem = document.createElement("div");
+          logItem.className = "log-item failure";
+          logItem.textContent = entry;
+          logDiv.appendChild(logItem);
+        });
+
+        // Refresh the page after 30 seconds
+        setTimeout(() => {
+          location.reload();
+        }, 30000); // Refresh after 30 seconds (adjust as needed)
+      })
+      .catch((error) => console.error("Error:", error));
+  }
+</script>
+{% endblock %}

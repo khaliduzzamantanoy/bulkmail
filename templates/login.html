@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <div class="form-container">
+    <h1>Sign In</h1>
+    <form method="POST" action="/login">
+      <label for="username">Username:</label><br />
+      <input type="text" id="username" name="username" required /><br /><br />
+
+      <label for="password">Password:</label><br />
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+      /><br /><br />
+
+      <button type="submit">Log In</button>
+    </form>
+
+    <!-- Forgot Password Link -->
+    <div style="text-align: center; margin-top: 15px">
+      <a
+        href="{{ url_for('forgot_password') }}"
+        style="color: #ff4d4d; text-decoration: none"
+        >Forgot Password?</a
+      >
+    </div>
+  </div>
+</div>
+{% endblock %}
