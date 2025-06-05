@@ -21,7 +21,7 @@ BulkMail Pro is a Flask-based web application designed to manage bulk email camp
 
 1.  **Clone the Repository**
     ```bash
-    git clone [https://github.com/your-username/bulkmail.git]
+    git clone https://github.com/khaliduzzamantanoy/bulkmail.git
     cd bulkmail
     ```
 
