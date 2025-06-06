@@ -114,7 +114,7 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 1.  **Clone the Repository**
     ```bash
-    git clone [https://github.com/your-username/bulkmail.git]
+    git clone https://github.com/khaliduzzamantanoy/bulkmail.git
     cd bulkmail
     ```
 
