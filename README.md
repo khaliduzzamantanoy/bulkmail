@@ -1,4 +1,4 @@
-# 📧 BulkMail Pro
+# 📧 BulkMail Pro.
 
 <div align="center">
 
